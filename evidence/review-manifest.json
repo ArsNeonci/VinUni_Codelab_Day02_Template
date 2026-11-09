@@ -1,0 +1,82 @@
+{
+  "group": "A95",
+  "review_date_local": "2026-11-09",
+  "timezone": "Asia/Saigon",
+  "selected_topic": "Vinmec - Discharge Summary",
+  "main_base_commit": "b221b79453f4192a1a5ee34348b6870cf09d1d6a",
+  "source_commits": {
+    "NguyenMinhQuan": "3f8dd2886c14c3a4b1cdac40bd971084fdc600ab",
+    "TruongThuHa": "fc6a82c4d4f966fd78c3b00bf7eb49ae626fd7ba",
+    "chu-quang-linh": "9bcba76308d356ea2a1c4deda9ba168132c2082d",
+    "manhcuong": "c3fa40e4bdd5ff2c7ba06e143c3f3295ecd43af8",
+    "phucluo": "25d35cc55b0496c1f091dda6875d4afd14f72913"
+  },
+  "review_scope": "Read all five branches: reports, diagrams, static Python. Run only selected Linh tests and local template comparison.",
+  "unit_test_check": {
+    "branch": "chu-quang-linh",
+    "exit_code": 0,
+    "summary": "49 passed in 0.88s",
+    "command": ".venv/Scripts/python.exe -m pytest -q"
+  },
+  "saved_live_check": {
+    "path": "evidence/discharge-live-run.json",
+    "passed": 8,
+    "total": 8,
+    "model": "gemini-3.8-flash",
+    "new_live_api_calls_in_group_review": 0
+  },
+  "template_check": {
+    "path": "evidence/template-baseline.json",
+    "passed": 8,
+    "total": 8,
+    "new_api_calls": 0
+  },
+  "limitations": [
+    "Synthetic pre-labelled fixtures derived from one base record",
+    "Shared technical validator, not independent clinical labels",
+    "No doctor time measurements, clinical assessment or measured API price",
+    "Other members API outcomes are author-reported unless raw evidence is present"
+  ],
+  "group_decision": "NOT YET for operational LLM; template-first for structured facts",
+  "clinical_decision_support": false,
+  "form_submitted_by_this_workflow": false,
+  "membership_metadata": "Names/emails follow the list supplied by Linh; a difference on Ha branch is documented in group review.",
+  "members": [
+    {
+      "name": "Chu Quang Linh",
+      "email": "Quanglinh1286@gmail.com",
+      "branch": "chu-quang-linh"
+    },
+    {
+      "name": "Nguyễn Minh Quân",
+      "email": "minhquandhtb@gmail.com",
+      "branch": "NguyenMinhQuan"
+    },
+    {
+      "name": "Trương Thu Hà",
+      "email": "thuha261102@gmail.com",
+      "branch": "TruongThuHa"
+    },
+    {
+      "name": "Phan Trần Mạnh Cường",
+      "email": "manhcuong2005.28@gmail.com",
+      "branch": "manhcuong"
+    },
+    {
+      "name": "Nguyễn Lương Phúc",
+      "email": "luongphuc.lpu@gmail.com",
+      "branch": "phucluo"
+    }
+  ],
+  "group_file_check": {
+    "command": "python autograder/autograder.py --section-a",
+    "exit_code": 0,
+    "score": "5/5",
+    "scope": "Existence of four deliverables only; not content grading."
+  },
+  "evidence_sha256_canonical_lf": {
+    "evidence/discharge-live-run.json": "aa14229f98b7d92815bf8b637841bb5ccb0a2d68d3e57d9722c2f70b0d185436",
+    "evidence/template-baseline.json": "a3f451dbc6644494a705068be9235c52ae9838d3a27a5fd75b10936f51179688"
+  },
+  "line_endings_note": "Baseline saved_live_report_sha256 is the original Windows CRLF working-file hash. Copied Git blobs use LF; reconstruct CRLF to verify it. Canonical LF hashes are supplied above."
+}
