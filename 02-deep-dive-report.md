@@ -1,4 +1,4 @@
-# Nhóm A95 - Xanh SM: Co-pilot hỗ trợ sự cố pin
+# Nhóm A95 - Vinmec: Soạn thảo tóm tắt hồ sơ xuất viện
 
 | Thành viên | Email |
 |---|---|
@@ -8,88 +8,97 @@
 | Phan Trần Mạnh Cường | manhcuong2005.28@gmail.com |
 | Nguyễn Lương Phúc | luongphuc.lpu@gmail.com |
 
-> Phạm vi: prototype học tập với dữ liệu mô phỏng, không kết nối hệ thống Xanh SM/VinFast. Các số nghiệp vụ là giả định, không phải kết quả khảo sát. Ngưỡng 5%/5km là chính sách bài lab, không phải công thức dự báo quãng đường an toàn.
+**Bản cá nhân:** Chu Quang Linh — branch `chu-quang-linh`.
+
+> Prototype giáo dục, chỉ dùng hồ sơ giả lập. Không phải công cụ điều trị, không tích hợp Vinmec/EHR và chưa có xác nhận lâm sàng. Mọi thời gian, sản lượng, mục tiêu là giả định để thiết kế thử nghiệm.
 
 ## Phase 3.1 - Current-State Workflow
 
-![Quy trình hiện tại và handoff](04-workflow-diagram.png)
+![Quy trình soạn tóm tắt xuất viện giả định](04-workflow-diagram.png)
 
-| Bước | Người/công cụ | Đầu vào → đầu ra | Thời gian giả định | Handoff/rủi ro |
+| Bước | Người/công cụ | Đầu vào → đầu ra | Thời gian giả định | Handoff/bottleneck |
 |---|---|---|---:|---|
-| 1. Nhận sự cố | Điều phối viên, điện thoại/app | Báo cáo tài xế → ticket | 2 phút | Tài xế → điều phối viên; thiếu thông tin. |
-| 2. Xác minh xe | Điều phối viên, dashboard | Ticket → pin/GPS đã kiểm tra | 2 phút | Điều phối viên ↔ hệ thống xe; dữ liệu cũ. |
-| 3. Tra phương án sạc | Điều phối viên, dashboard trạm | Pin/GPS → trạm phù hợp hoặc cứu hộ | 5 phút | Điều phối viên ↔ dữ liệu trạm; bottleneck 1. |
-| 4. Soạn và duyệt tin | Điều phối viên | Phương án → hướng dẫn đã duyệt | 5 phút | Nhiều thao tác lặp lại; bottleneck 2. |
-| 5. Gửi/xác nhận hoặc liên hệ cứu hộ | Điều phối viên, app/điện thoại | Bản duyệt → yêu cầu được chuyển giao | 1 phút | Điều phối viên → tài xế/đội cứu hộ. |
+| 1. Tập hợp đúng hồ sơ | Bác sĩ/điều dưỡng, EHR | Mã người bệnh/đợt điều trị → tập nguồn | 4 phút | Điều dưỡng → bác sĩ; cần đúng người và đúng đợt. |
+| 2. Rà diễn biến/xét nghiệm | Bác sĩ, ghi chép/kết quả | Tập nguồn → thông tin liên quan và kết quả chờ | 5 phút | EHR → bác sĩ; bottleneck do thông tin phân tán. |
+| 3. Tổng hợp chẩn đoán/thuốc/dị ứng | Bác sĩ, trao đổi dược sĩ nếu cần | Ghi chép/đơn → danh sách đã đối chiếu | 6 phút | Bác sĩ ↔ dược sĩ trong kịch bản cần làm rõ; bottleneck. |
+| 4. Viết và đối chiếu bản tóm tắt | Bác sĩ | Thông tin đã tổng hợp → bản nháp | 4 phút | Kiểm tra không bỏ thuốc, dị ứng, tái khám, xét nghiệm chờ. |
+| 5. Ký và chuyển giao | Bác sĩ, điều dưỡng | Bản được bác sĩ duyệt → tài liệu bàn giao | 1 phút | Bác sĩ → điều dưỡng/người tiếp nhận; ngoài phạm vi prototype. |
 
-**Tổng giả định: 15 phút/lượt; bottleneck: 10 phút (bước 3 + 4).** Với pin nguy cấp, ưu tiên nhánh cứu hộ; quy trình trên chỉ là mô hình thời gian đơn giản. Không bao gồm thời gian xe cứu hộ đến nơi hoặc thời gian sạc.
+**Tổng giả định 20 phút/lượt; bottleneck bước 2 + 3 = 11 phút.** Không tính thời gian điều trị hay chờ xét nghiệm. Thực tế cần quan sát và đo trước khi xác nhận baseline.
 
 ## Phase 3.2 - Problem Statement 6-field
 
 | Field | Nội dung |
 |---|---|
-| 1. Actor / Operator | Điều phối viên xử lý yêu cầu sự cố pin; tài xế là người nhận thông tin, đội cứu hộ nhận yêu cầu đã được duyệt. |
-| 2. Current Workflow | Nhận báo cáo → kiểm tra pin/GPS → tìm phương án → viết/duyệt tin → gửi hoặc gọi cứu hộ; giả định 15 phút/lượt. |
-| 3. Bottleneck | Tra cứu và viết tin giả định 10 phút/lượt; chuyển giữa nhiều màn hình, dễ thiếu dữ kiện hoặc diễn đạt không thống nhất. |
-| 4. Business Impact | Kịch bản 40 lượt/ngày × 15 phút = 600 phút (10 giờ công/ngày). Nếu đạt 3 phút/lượt thì tiết kiệm lý thuyết 480 phút (8 giờ/ngày), chưa trừ chi phí review, API và tích hợp. Đây là giả định cần đo, chưa quy đổi thành doanh thu. |
-| 5. Success Metric | Median từ nhận ticket đến phê duyệt ≤ 3 phút; P90 ≤ 5 phút; ≥ 98% nháp đúng dữ kiện trên bộ 200 tình huống có nhãn; 0 vi phạm ranh giới; 100% hành động có người duyệt. |
-| 6. Operational Boundary | Chỉ tạo nháp/đề xuất; mọi output bắt đầu `[DRAFT_ONLY] `. Pin < 5% → `dispatch_mobile_charger`, không chỉ đường tới trạm, kể cả trạm ≤ 5km. Pin = 5% không thuộc nhánh nguy cấp nhưng không bảo đảm đi được tới trạm. Thiếu/mâu thuẫn dữ liệu → `request_human_review`. Cấm tự gửi, tự đặt trạm, tự điều xe hoặc bịa thông tin. |
+| 1. Actor / Operator | Bác sĩ soạn và chịu trách nhiệm duyệt tóm tắt; người nhận sử dụng bản được ký. |
+| 2. Current Workflow | Tập hợp hồ sơ → rà diễn biến/xét nghiệm → đối chiếu chẩn đoán/thuốc/dị ứng → viết/kiểm tra → ký/chuyển giao; giả định 20 phút/lượt. |
+| 3. Bottleneck | Đọc và đối chiếu nội dung phân tán giả định 11 phút; cần giữ đúng thông tin, nguồn và trạng thái chưa có kết quả. |
+| 4. Business Impact | Kịch bản 20 hồ sơ/ngày × 20 phút = 400 phút. Nếu đạt 8 phút/hồ sơ thì còn 160 phút, tiết kiệm lý thuyết 240 phút/ngày. Chưa tính tích hợp, đào tạo, review bổ sung và chi phí API; chưa có ROI đo được. |
+| 5. Success Metric | Median soạn + bác sĩ duyệt ≤ 8 phút; P90 ≤ 12 phút; 100% thông tin nháp có nguồn hỗ trợ; 0 sửa liều/nhầm người/bỏ kết quả chờ trong bộ nghiệm thu; 100% bác sĩ duyệt. |
+| 6. Operational Boundary | Chỉ tạo bản nháp có nguồn. Không bịa, không thêm chẩn đoán/đơn thuốc/hướng dẫn điều trị, không quyết định đủ điều kiện xuất viện, ký, gửi hoặc ghi EHR. Thiếu/mâu thuẫn dữ liệu → yêu cầu bác sĩ kiểm tra. |
 
-### Kế hoạch đo, không thay mục tiêu bằng kết quả
+### Nội dung và nguồn tham khảo
 
-1. Xin quyền dùng ít nhất 100 ticket ẩn danh trong một tuần để đo median/P90 từng bước, thời gian review và tỷ lệ sửa tin; ghi nhận nhóm sự cố để so sánh cùng loại.
-2. Tạo bộ kiểm định riêng tối thiểu 200 tình huống, gồm pin 0%, 4,9%, 5%, thiếu pin, dữ liệu cũ, trạm không tương thích và prompt injection. Điều phối viên gán nhãn hành động chuẩn; hai người đối chiếu các trường hợp bất đồng.
-3. So sánh ba phương án trên cùng bộ: thủ công, rule + mẫu tin cố định, rule + LLM. Không dùng thời gian chờ cứu hộ làm metric cho tốc độ soạn nháp.
-4. Đo chi phí mỗi ticket = token input/output theo hóa đơn API + thời gian review × đơn giá giờ + chi phí tích hợp phân bổ. Chưa có số token/hóa đơn và đơn giá nhân sự nên chưa kết luận ROI. Mục tiêu sơ bộ: chi phí API không vượt 10% giá trị thời gian tiết kiệm đã đo.
+Schema lab chọn tám mục: nhập/xuất viện, chẩn đoán, diễn biến, thuốc xuất viện, dị ứng, tái khám, xét nghiệm chờ và tình trạng xuất viện theo ghi chép. Đây là schema thử nghiệm, không phải tuyên bố thay thế mẫu bệnh viện hay biểu mẫu pháp lý.
 
-## Phase 3.3 - AI Fit & Future-State
+Tài liệu AHRQ nhấn mạnh thông tin chẩn đoán, diễn biến, thuốc, kế hoạch theo dõi và các kết quả đang chờ trong chuyển tiếp chăm sóc. Chúng được dùng để định hướng phạm vi dữ liệu, không để AI tự tạo khuyến nghị điều trị: [Care Transitions](https://psnet.ahrq.gov/perspective/care-transitions), [RED Toolkit - Tool 3](https://www.ahrq.gov/patient-safety/settings/hospital/red/toolkit/redtool3.html).
 
-| Phương án | Phù hợp | Quyết định |
+### Kế hoạch đo
+
+1. Xin phép đơn vị sở hữu dữ liệu, thống nhất mẫu và checklist với bác sĩ; lab ban đầu chỉ dùng dữ liệu tổng hợp.
+2. Đo thời gian soạn và review trên tối thiểu 100 hồ sơ được phép sử dụng; ghi median/P90, số lần sửa và loại lỗi.
+3. Xây bộ kiểm định độc lập tối thiểu 200 tình huống có nhãn được bác sĩ đối chiếu, gồm thiếu dữ liệu, mâu thuẫn thuốc, dị ứng, kết quả chờ, nhầm người và prompt injection.
+4. So sánh thủ công, rule/template và LLM trên cùng dữ liệu. Mọi tuyên bố tiết kiệm thời gian phải tính cả công bác sĩ kiểm tra.
+5. Tính chi phí theo token/hóa đơn API + giờ review + tích hợp/giám sát. Chưa có dữ liệu này nên chưa kết luận lợi ích kinh tế.
+
+## Phase 3.3 - AI Fit và Future-State
+
+| Phương án | Phần phù hợp | Quyết định |
 |---|---|---|
-| Rule / State Machine | Ngưỡng pin, dữ liệu bắt buộc, kiểm tra schema, quyền gửi và phê duyệt. | Bắt buộc đặt ngoài mô hình ở hệ thống thật. Mẫu tin cố định là baseline phải so sánh. |
-| LLM Feature | Diễn đạt nháp tiếng Việt và tóm tắt mô tả tự do theo dữ liệu đã xác minh. | Thử trong sandbox; chỉ giữ nếu có cải thiện đo được so với template. |
-| Agentic Loop | Tự gọi nhiều công cụ rồi gửi tin/điều xe. | Không chọn: workflow cố định, chưa có dữ liệu/quyền công cụ và rủi ro hành động sai. |
+| Rule/template | Kiểm tra đúng người, ID nguồn, mục thiếu, trường mâu thuẫn và quyền phê duyệt. | Bắt buộc; là baseline. Với nguồn đã phân mục như fixture hiện tại, rule có thể đủ. |
+| LLM Feature | Tập hợp bản nháp theo mục từ nhiều ghi chép; hướng phát triển là hỗ trợ tìm nội dung liên quan. | Chỉ thử với dữ liệu giả lập và kiểm tra nguồn nghiêm ngặt. |
+| Agentic Loop | Tự truy cập, sửa hồ sơ, kê đơn hoặc gửi tóm tắt. | Không chọn; chưa có dữ liệu, tích hợp và cơ chế giám sát đủ cho hành động tự trị. |
 
 ```mermaid
 flowchart TD
-  A[HUMAN: tiếp nhận và xác minh ticket] --> B[RULE: kiểm tra pin/GPS/trạm và độ mới]
-  B -->|Thiếu hoặc mâu thuẫn| H[HUMAN: kiểm tra và xử lý thủ công]
-  B -->|Pin dưới 5%| C[RULE: chỉ cho đề xuất xe sạc di động]
-  B -->|Pin từ 5% và dữ kiện đủ| D[RULE: chọn phương án phù hợp]
-  C --> E[AI: soạn nháp theo hành động cho phép]
-  D --> E
-  E --> F[RULE: kiểm tra prefix/JSON/hành động]
-  F -->|Lỗi/timeout/không đạt| H
-  F -->|Đạt| G[HUMAN: kiểm tra ngữ nghĩa và phê duyệt]
-  G -->|Cần sửa| H
-  G -->|Đã duyệt| I[HUMAN: gửi tin hoặc liên hệ đội cứu hộ]
+  A[Người phụ trách: tập hợp đúng nguồn đã được phép] --> B[Rule: kiểm tra mã người bệnh và nguồn]
+  B --> C[LLM: tạo nháp theo mục, kèm ID và trích dẫn]
+  C --> D[Rule: kiểm tra tag, schema, nội dung và đủ nguồn]
+  D -->|API lỗi hoặc nháp không đạt| F[Bác sĩ soạn thủ công theo quy trình cũ]
+  D -->|Thiếu hoặc mâu thuẫn| E[Bác sĩ đối chiếu và bổ sung nguồn]
+  D -->|Đạt kiểm tra kỹ thuật| G[Bác sĩ kiểm tra lâm sàng và quyết định sửa]
+  E --> G
+  G --> H[Bác sĩ phê duyệt, ký và chuyển giao trong hệ thống bệnh viện]
 ```
 
-**Phân biệt thiết kế và code đã có:** Prototype hiện chỉ gọi Gemini với input mô phỏng, trả output thô, kiểm tra cấu trúc và so hành động với nhãn kỳ vọng của test. Chưa có telemetry, API trạm, rule engine nghiệp vụ từ dữ liệu đáng tin hoặc giao diện duyệt/gửi. `expected_action` là nhãn do người viết test định nghĩa, không phải quyết định sản xuất. Không có công cụ nào được cấp cho LLM.
+**Phần đã có:** API Gemini, tám tình huống giả lập, schema nháp, validator so khớp nguồn, rule đánh dấu thiếu/mâu thuẫn/nhầm người và xuất demo Markdown.
+
+**Phần chưa có:** Đọc bệnh án thật/PDF/OCR, EHR, kiểm soát truy cập cấp bệnh viện, giao diện bác sĩ ký, nguồn dữ liệu tự do chưa phân mục hoặc kiểm định lâm sàng. Nhãn section và fact_key được chuẩn bị sẵn trong fixture; code không tự xác định độ tin cậy y khoa của nguồn.
 
 ### Fallback và trách nhiệm
 
-Timeout, lỗi xác thực/quota, output rỗng, JSON sai, mất tag hay sai action đều khiến test thất bại và chương trình thoát khác 0. Trong pilot thiết kế, chặn output khỏi luồng gửi và giao điều phối viên xử lý bằng mẫu thủ công; không đổi sang model khác hoặc làm giả câu trả lời đạt. Điều phối viên kiểm tra nội dung `message` và `reason` ngay cả khi validator đạt; schema/action đúng chưa chứng minh nội dung không chứa lời khuyên sai.
+- Lỗi API/quota/timeout, mất tag, sai schema, quote không khớp hoặc thiếu nguồn → chặn nháp bằng exit code 1; không tự sửa đầu ra thành đạt.
+- Hồ sơ thiếu hoặc mâu thuẫn vẫn có thể tạo bản nháp đối chiếu với action `request_clinician_review`; đây là test đạt nếu phát hiện đúng vấn đề, không có nghĩa hồ sơ hoàn tất.
+- Bác sĩ chịu trách nhiệm xác minh nguồn, tính đầy đủ và nội dung trước khi ký; không dùng nháp trực tiếp cho bệnh nhân.
+- Việc sao chép chính xác một nguồn không chứng minh nguồn đó đúng, hiện hành hoặc đủ cho chăm sóc người bệnh.
 
 ## Phase 4 - Technical Prompt Prototype
 
-- Code: [starter-code/prompt_prototype.py](starter-code/prompt_prototype.py).
-- PDF dùng `gemini-2.5-flash`; source hiện được chỉnh sang `gemini-3.8-flash`, temperature = 0; dùng SDK `google-genai`, system instruction riêng. Cấu hình thinking dùng budget 0 cho dòng 2.5 và level LOW cho model hiện tại theo [hướng dẫn Gemini 3.8](https://ai.google.dev/gemini-api/docs/latest-model). Tham chiếu SDK: [Google Gen AI SDK](https://googleapis.github.io/python-genai/).
-- Key: đọc `.env` tại gốc dự án, ưu tiên key trong file; nếu thiếu dùng biến môi trường. Không log key, không commit `.env`.
-- Wire format: `[DRAFT_ONLY] ` + một object JSON gồm `action`, `reason`, `message`, `requires_human_approval: true`. Không ép MIME `application/json` vì prefix ngoài object khiến toàn bộ phản hồi không còn là JSON thuần; validator parse phần JSON sau prefix.
-- 5 adversarial cases: ép đi xa khi pin 2%; bỏ tag/tự gửi; giả system với pin 4,9%; pin 0% nhưng trạm gần; yêu cầu bịa dữ liệu. Thêm positive control pin đúng 5% để phát hiện việc gọi cứu hộ mọi trường hợp.
-- Validator kiểm tra tag ở **đầu** phản hồi, JSON hợp lệ, khóa trùng/thừa/thiếu, kiểu boolean, chuỗi không rỗng và action đúng nhãn. Không dùng việc xuất hiện từ “cứu hộ” hoặc tag ở giữa câu làm bằng chứng đạt.
-- Kết quả thực thi và phản ánh ghi tại [AI Log](03-ai-log.md); raw live output được lưu ở `results/gemini-boundary.json` khi chạy với `--report`.
-- Kết quả đã chạy: **34 test offline đạt; Gemini thật 6/6 kiểm tra cấu trúc/action đạt; autograder gốc 10/10**. Đã phát hiện và sửa một suy diễn về việc đang điều xe ở lượt đầu; còn giới hạn kiểm tra ngữ nghĩa được ghi trung thực trong AI Log. Điểm checker không thay thế đánh giá rubric hay xác nhận an toàn sản phẩm.
+- [Code](starter-code/prompt_prototype.py): `gemini-3.8-flash`, SDK `google-genai`, temperature 0, thinking LOW; key từ `.env`, không log/commit key.
+- Output: `[DRAFT_ONLY] ` + JSON gồm action, patient_id, sections, missing_fields, issues, requires_clinician_approval.
+- Mỗi section là danh sách `{source_id, quote}`; quote phải giống toàn bộ nội dung nguồn. Đây là **bản tóm tắt trích xuất theo mục**, chưa hỗ trợ diễn giải/rút gọn tự do.
+- Validator bắt buộc đủ mọi nguồn hợp lệ của đúng người bệnh, đúng mục; chặn thay số/liều, bịa nguồn, bỏ xét nghiệm chờ, lặp nguồn hoặc dùng nguồn của người khác.
+- Rule chỉ phát hiện mâu thuẫn khi nguồn được gắn cùng fact_key nhưng khác text; không phải bộ phát hiện mâu thuẫn lâm sàng tổng quát.
+- Bảy adversarial cases: bịa chẩn đoán/dị ứng; sửa liều; bỏ tag/duyệt; bỏ hoặc đổi kết quả chờ; trộn người; tự chọn giữa hai đơn mâu thuẫn; injection trong attachment. Một control dùng đủ nguồn.
+- **Kết quả:** 49/49 test offline và 8/8 live cases đạt. Raw output: [gemini-discharge.json](results/gemini-discharge.json). Chi tiết: [AI Log](03-ai-log.md).
+- Autograder gốc giữ nguyên để tham khảo quy định bài lab. Section A kiểm tra bốn deliverable còn phù hợp; Section B có keyword và quy tắc cố định cho bài toán cũ nên không dùng điểm toàn bộ grader làm bằng chứng cho bài này.
 
 ## Phase 5 - EVALUATE
 
-| AI Readiness Checklist | Trạng thái và bằng chứng |
+| Checklist | Bằng chứng/trạng thái |
 |---|---|
-| Có dữ liệu mẫu/logs sạch? | Có input tổng hợp trong code; **chưa có log doanh nghiệp** hoặc bộ test độc lập 200 case. |
-| Rủi ro được kiểm soát qua HITL/Fallback? | Sandbox không có quyền thực thi hành động; có validator/exit code. Luồng duyệt và rule từ telemetry trong hệ thống thật chưa được tích hợp. |
-| Stakeholders sẵn sàng thay đổi? | Chưa phỏng vấn hay nhận xác nhận từ điều phối viên, đội cứu hộ hoặc người sở hữu dữ liệu. |
+| Có mẫu/logs sạch? | Có fixture hoàn toàn tổng hợp; chưa có dữ liệu lâm sàng được cấp phép hoặc bộ test do bác sĩ gán nhãn. |
+| Rủi ro trong tầm kiểm soát? | Sandbox không có quyền kê đơn/ký/gửi/EHR; có kiểm tra nguồn. Chưa có quy trình duyệt và giám sát tích hợp bệnh viện. |
+| Stakeholders sẵn sàng? | Chưa có bác sĩ/đơn vị sở hữu dữ liệu xác nhận workflow, mẫu hay khả năng chấp nhận nháp. |
 
-**Quyết định: GO cho thí nghiệm sandbox; NOT YET cho pilot vận hành.** Chưa có baseline, dữ liệu đủ tin cậy, đối chứng rule/template hay phê duyệt stakeholder. Một lượt kiểm thử prompt không chứng minh an toàn thực địa hoặc lợi ích kinh doanh.
-
-Điều kiện để xét pilot: có chủ sở hữu nghiệp vụ và dữ liệu được cấp phép; đo baseline; bộ kiểm định độc lập đạt ngưỡng; rule engine kiểm tra pin/trạm/độ mới; có duyệt bắt buộc và fallback; chi phí có lợi hơn baseline. Nếu template đạt tương đương với chi phí thấp hơn thì **NO-GO cho phần LLM**, giữ phần rule và cải tiến quy trình.
+**Quyết định: GO cho sandbox giáo dục; NOT YET cho pilot lâm sàng.** Cần chuyên gia duyệt schema, dữ liệu được phép sử dụng, đánh giá nguồn và lỗi bỏ sót, kiểm thử độc lập, đo baseline và so sánh rule/template. Nếu rule/template đáp ứng tương đương với chi phí thấp hơn thì NO-GO cho thành phần LLM.

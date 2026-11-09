@@ -36,7 +36,7 @@ def main():
     draw = ImageDraw.Draw(image)
     ink, muted, blue, red = "#17243b", "#526178", "#216baf", "#b33640"
     draw.rectangle((0, 0, 1800, 100), fill=ink)
-    draw.text((65, 20), "A95 | XANH SM - QUY TRÌNH HIỆN TẠI", font=font(38, True), fill="white")
+    draw.text((65, 20), "A95 | VINMEC - TÓM TẮT HỒ SƠ XUẤT VIỆN", font=font(38, True), fill="white")
     members = [
         "Chu Quang Linh | Quanglinh1286@gmail.com    •    Nguyễn Minh Quân | minhquandhtb@gmail.com",
         "Trương Thu Hà | thuha261102@gmail.com    •    Phan Trần Mạnh Cường | manhcuong2005.28@gmail.com",
@@ -46,17 +46,17 @@ def main():
         draw.text((65, 115 + index * 32), line, font=font(23), fill=muted)
     draw.text((65, 230), "MÔ PHỎNG BÀI LAB • Thời gian là giả định, chưa có dữ liệu vận hành thực tế.", font=font(27, True), fill=blue)
     steps = [
-        ("01", "Nhận báo cáo sự cố", "2 phút", "Điều phối viên • Điện thoại / App", "Báo cáo tài xế → ticket sự cố", False),
-        ("02", "Xác minh pin và GPS", "2 phút", "Điều phối viên • Dashboard xe", "Ticket → pin / vị trí đã kiểm tra", False),
-        ("03", "Tra phương án sạc", "5 phút", "Điều phối viên • Dashboard trạm", "Pin / GPS → trạm phù hợp hoặc cứu hộ", True),
-        ("04", "Soạn và duyệt tin", "5 phút", "Điều phối viên • Mẫu tin / App", "Phương án → bản hướng dẫn đã duyệt", True),
-        ("05", "Gửi hoặc liên hệ cứu hộ", "1 phút", "Điều phối viên • App / Điện thoại", "Bản duyệt → yêu cầu được bàn giao", False),
+        ("01", "Tập hợp đúng hồ sơ", "4 phút", "Bác sĩ / Điều dưỡng • EHR", "Mã người bệnh / đợt điều trị → tập nguồn", False),
+        ("02", "Rà diễn biến / xét nghiệm", "5 phút", "Bác sĩ • Ghi chép / Kết quả", "Tập nguồn → diễn biến và kết quả đang chờ", True),
+        ("03", "Tổng hợp thuốc / chẩn đoán", "6 phút", "Bác sĩ / Dược sĩ • Đơn xuất viện", "Nguồn → chẩn đoán, thuốc và dị ứng", True),
+        ("04", "Viết và đối chiếu tóm tắt", "4 phút", "Bác sĩ • Mẫu tóm tắt xuất viện", "Thông tin đã tổng hợp → bản nháp đối chiếu", False),
+        ("05", "Bác sĩ ký và chuyển giao", "1 phút", "Bác sĩ • EHR / Tài liệu bàn giao", "Bản được duyệt → tài liệu chuyển giao", False),
     ]
     handoffs = [
-        "Handoff 1: Tài xế → điều phối viên khi báo sự cố",
-        "Handoff 2: Điều phối viên ↔ hệ thống xe để xác minh",
-        "Handoff 3: Điều phối viên ↔ dữ liệu trạm để chọn phương án",
-        "Handoff 4: Điều phối viên → tài xế / đội cứu hộ ở bước gửi",
+        "Handoff 1: Điều dưỡng → bác sĩ; xác minh đúng người và đợt điều trị",
+        "Handoff 2: EHR → bác sĩ; đối chiếu ghi chép và kết quả đang chờ",
+        "Handoff 3: Bác sĩ ↔ dược sĩ khi cần làm rõ thông tin thuốc",
+        "Handoff 4: Bác sĩ → điều dưỡng / người tiếp nhận sau bước ký",
     ]
     for i, (number, title, duration, actor, data, bottleneck) in enumerate(steps):
         y = 300 + i * 218
@@ -75,8 +75,8 @@ def main():
             draw.polygon([(116, y + 195), (134, y + 195), (125, y + 208)], fill=blue)
             draw.text((195, y + 169), handoffs[i], font=font(24), fill=blue)
     draw.rounded_rectangle((65, 1410, 1735, 1545), radius=18, fill=ink)
-    draw.text((90, 1422), "Tổng: 15 phút/lượt  |  Bottleneck: 10 phút ở bước 3 + 4", font=font(30, True), fill="white")
-    draw.text((90, 1471), "Pin nguy cấp ưu tiên cứu hộ. Không tính thời gian chờ xe cứu hộ hoặc thời gian sạc.", font=font(24), fill="#ced9e7")
+    draw.text((90, 1422), "Tổng: 20 phút/hồ sơ  |  Bottleneck: 11 phút ở bước 2 + 3", font=font(30, True), fill="white")
+    draw.text((90, 1471), "Số liệu giả định. Không tính thời gian điều trị / chờ xét nghiệm. Bác sĩ chịu trách nhiệm duyệt.", font=font(24), fill="#ced9e7")
     metadata = PngInfo()
     metadata.add_text("Description", __doc__)
     image.save(ROOT / "04-workflow-diagram.png", pnginfo=metadata)
