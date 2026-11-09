@@ -14,7 +14,7 @@ Bài toán hiện tại: **Vinmec - Soạn thảo tóm tắt hồ sơ xuất vi�
 
 ## Deliverables
 
-- [Problem Scan và ba Quick Cards](01-problem-scan.md).
+- [5 problems, 3 lenses và 3 Quick Cards](01-problem-scan.md); Discharge Summary là Card 3 được chọn cuối cùng.
 - [Deep-Dive, workflow tương lai và đánh giá](02-deep-dive-report.md).
 - [AI Log và kết quả thực tế](03-ai-log.md).
 - [Sơ đồ current-state](04-workflow-diagram.png).
