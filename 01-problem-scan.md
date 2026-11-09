@@ -2,8 +2,6 @@
 **Tên nhóm:** A95
 **Thành viên:**
 - Trương Thị Thu Hà — 26ai.hattt@vinuni.edu.vn
-- <Họ tên thành viên 2> — <email>
-- <Họ tên thành viên 3> — <email>
 
 ## Phase 1 — SCAN (tối thiểu 5 bài toán)
 | # | Subsidiary | Lens | Mô tả ngắn bài toán | Con số minh họa |
@@ -26,10 +24,10 @@ Chọn 3 bài từ bảng SCAN: #3 (bàn giao ca điều dưỡng), #2 (đối c
 **1. Ai đang khổ:**
 - Điều dưỡng tại các khoa nội trú của Vinmec, đặc biệt khi phải bàn giao nhiều bệnh nhân giữa các ca trực.
 
-**2. Quy trình hiện tại (4 bước):**
-1. Đọc hồ sơ và ghi chú chăm sóc của từng bệnh nhân (7 phút).
+**2. Quy trình hiện tại (4 bước, thời gian tính cho mỗi ca trực):**
+1. Đọc hồ sơ và ghi chú chăm sóc của các bệnh nhân được phân công trong ca (5 phút).
 2. Tổng hợp diễn biến, thuốc đã sử dụng và các công việc cần theo dõi (8 phút).
-3. Soạn nội dung bàn giao ca trực (3 phút).
+3. Soạn nội dung bàn giao ca trực (5 phút).
 4. Kiểm tra thông tin và trao đổi với điều dưỡng ca tiếp theo (2 phút).
 
 **3. Bước tốn thời gian nhất + số phút:**
@@ -51,7 +49,7 @@ Chọn 3 bài từ bảng SCAN: #3 (bàn giao ca điều dưỡng), #2 (đối c
 
 **Công ty thành viên:** Vinmec
 
-**Lens:** Lặp lại (Repetitive)
+**Lens:** Tốn thời gian (Time-consuming)
 
 **1. Ai đang khổ:**
 - Nhân viên hành chính và bộ phận xử lý bảo hiểm tại Vinmec.
@@ -63,7 +61,7 @@ Chọn 3 bài từ bảng SCAN: #3 (bàn giao ca điều dưỡng), #2 (đối c
 4. Ghi nhận lỗi, yêu cầu bổ sung hoặc chuyển hồ sơ xử lý (2 phút).
 
 **3. Bước tốn thời gian nhất + số phút:**
-- Bước 3: Đối chiếu thông tin, khoảng **4 phút/hồ sơ**, lặp lại với mỗi hồ sơ tiếp nhận.
+- Bước 3: Đối chiếu thông tin, khoảng **4 phút/hồ sơ**, nhân với 10–20 hồ sơ/ngày.
 
 **4. AI giúp ở bước nào:**
 - Bước 2: LLM hỗ trợ trích xuất dữ liệu từ giấy tờ.

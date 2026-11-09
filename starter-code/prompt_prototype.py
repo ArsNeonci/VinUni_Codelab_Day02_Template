@@ -7,6 +7,7 @@ Họ tên: Trương Thị Thu Hà — Email: 26ai.hattt@vinuni.edu.vn — Nhóm:
 
 import os
 import sys
+import time
 from typing import Any
 
 # Standard Model Identifier
@@ -52,7 +53,10 @@ def evaluate_prompt(user_input: str) -> str:
         # Option A: New Google GenAI SDK (Preferred Standard)
         from google import genai
         from google.genai import types
+    except ImportError:
+        genai = None
 
+    if genai is not None:
         # Giới hạn mỗi lần gọi API tối đa 60 giây để chương trình không bị treo mãi
         client = genai.Client(
             api_key=api_key,
@@ -62,15 +66,24 @@ def evaluate_prompt(user_input: str) -> str:
             system_instruction=SYSTEM_PROMPT,
             temperature=0.0,  # Setting to 0 for maximum boundary compliance
         )
-        response = client.models.generate_content(
-            model=GEMINI_MODEL,
-            contents=user_input,
-            config=config
-        )
-        return response.text or ""
+        # Gọi tối đa 2 lần: nếu lần đầu bị chậm/quá tải thì chờ 5 giây rồi thử lại
+        last_error = None
+        for attempt in range(1, 3):
+            try:
+                response = client.models.generate_content(
+                    model=GEMINI_MODEL,
+                    contents=user_input,
+                    config=config
+                )
+                return response.text or ""
+            except Exception as e:
+                last_error = e
+                print(f"   (Lần gọi {attempt} chưa có kết quả: {type(e).__name__}. Thử lại sau 5 giây...)")
+                time.sleep(5)
+        raise last_error
 
-    except (ImportError, Exception):
-        # Option B: Fallback to legacy google-generativeai SDK
+    else:
+        # Option B: Fallback to legacy google-generativeai SDK (chỉ dùng khi chưa cài google-genai)
         import google.generativeai as genai
 
         genai.configure(api_key=api_key)
