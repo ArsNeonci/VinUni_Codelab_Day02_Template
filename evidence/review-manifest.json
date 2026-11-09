@@ -78,5 +78,33 @@
     "evidence/discharge-live-run.json": "aa14229f98b7d92815bf8b637841bb5ccb0a2d68d3e57d9722c2f70b0d185436",
     "evidence/template-baseline.json": "a3f451dbc6644494a705068be9235c52ae9838d3a27a5fd75b10936f51179688"
   },
-  "line_endings_note": "Baseline saved_live_report_sha256 is the original Windows CRLF working-file hash. Copied Git blobs use LF; reconstruct CRLF to verify it. Canonical LF hashes are supplied above."
+  "line_endings_note": "Baseline saved_live_report_sha256 is the original Windows CRLF working-file hash. Copied Git blobs use LF; reconstruct CRLF to verify it. Canonical LF hashes are supplied above.",
+  "code_integration": {
+    "source_branch": "chu-quang-linh",
+    "source_commit": "9bcba76308d356ea2a1c4deda9ba168132c2082d",
+    "group_docs_parent": "f0e5c0ebf4ed6ab045799004138473861b155fb9",
+    "method": "Non-fast-forward merge; keep main group reports and diagram on conflicts; sync diagram renderer with group artifact.",
+    "requested_by": "Chu Quang Linh (group leader)",
+    "leader_confirmed_email_ha": "thuha261102@gmail.com",
+    "leader_accepted_topic_and_gemini_3_8": true,
+    "confirmation_source": "Explicit group leader message in this session",
+    "clinical_approval": false,
+    "timestamp_utc": "2026-11-09T17:02:13.918471+00:00",
+    "checks": {
+      "pytest": "49 passed",
+      "template": "8/8",
+      "saved_live_source_validation": "8/8",
+      "new_live_api_calls": 0,
+      "section_a": "5/5",
+      "pip_check": "No broken requirements",
+      "group_diagram_unchanged": true
+    },
+    "runtime_paths": [
+      "starter-code/prompt_prototype.py",
+      "tests/test_prompt_prototype.py",
+      "tools/compare_template_baseline.py",
+      "tools/export_discharge_demo.py",
+      "tools/render_workflow.py"
+    ]
+  }
 }

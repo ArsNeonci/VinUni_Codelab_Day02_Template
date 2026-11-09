@@ -68,3 +68,5 @@ Nếu làm tiếp, ưu tiên quan sát workflow, đo công review và so sánh t
 ## 6. Giới hạn trách nhiệm của bản nhóm
 
 Bản nhóm tổng hợp đóng góp có trong commit, không xác nhận mỗi thành viên đã đọc hay phê duyệt phiên bản này. Các branch cá nhân được giữ riêng để chấm cá nhân. Bài nhóm không thay cho phản ánh tự thuật còn thiếu của một thành viên và không phải chứng từ đã nộp form.
+
+Sau khi đánh giá bản nhóm, Linh xác nhận vai trò nhóm trưởng, email Hà là thuha261102@gmail.com, chấp nhận đề tài/model và yêu cầu đưa code lên main. Code được chọn từ branch Linh, các xung đột tài liệu giữ bản nhóm; các ghi nhận review theo snapshot trước đó vẫn được giữ để truy vết. Không diễn giải xác nhận nộp bài này thành phê duyệt lâm sàng.

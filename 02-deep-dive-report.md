@@ -116,7 +116,7 @@ Phân bổ này dành nhiều thời gian hơn cho review AI, không giả đị
 
 Fixture là các biến thể của một hồ sơ tổng hợp với mã SYNTH, không phải tám bệnh án độc lập. Bằng chứng hỗ trợ **tính đúng của kiểm tra kỹ thuật trong phạm vi hẹp**, không chứng minh hiệu quả thời gian, lợi ích kinh tế hay an toàn người bệnh.
 
-Code và lệnh tái lập: [prototype Linh](https://github.com/ArsNeonci/VinUni_Codelab_Day02_Template/blob/9bcba76308d356ea2a1c4deda9ba168132c2082d/starter-code/prompt_prototype.py), [script so sánh template](https://github.com/ArsNeonci/VinUni_Codelab_Day02_Template/blob/9bcba76308d356ea2a1c4deda9ba168132c2082d/tools/compare_template_baseline.py). Main chỉ nhận tài liệu/evidence; không merge code cá nhân.
+Code và lệnh tái lập hiện có trên main theo yêu cầu cuối cùng của nhóm trưởng: [prototype](starter-code/prompt_prototype.py), [script so sánh template](tools/compare_template_baseline.py). Nguồn nhập từ branch Linh được ghi trong manifest; báo cáo nhóm được giữ nguyên. Việc chấp nhận bài lab không thay đổi kết luận NOT YET cho triển khai nghiệp vụ.
 
 ## 7. G4 — Chi phí, readiness và quyết định
 

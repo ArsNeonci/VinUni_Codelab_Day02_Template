@@ -22,7 +22,7 @@
 
 Linh có commit bổ sung baseline sau bản cá nhân d25e942; không đổi system prompt hay code prototype. Review gồm ba .md, sơ đồ và đọc tĩnh .py của mỗi branch. Chỉ prototype Linh do phiên làm việc này đã phát triển được import/run test để xác minh evidence; không thực thi tùy tiện code của các branch khác.
 
-Thông tin nhóm ở đầu các file dùng đúng danh sách Linh đã cung cấp. Branch Hà ghi tên “Trương Thị Thu Hà” và email VinUni khác danh sách này; review không tự thay thông tin đăng ký hoặc sửa branch của Hà.
+Thông tin nhóm ở đầu các file dùng danh sách Linh đã cung cấp. Branch Hà có thông tin khác; sau review, nhóm trưởng đã xác nhận dùng email thuha261102@gmail.com cho bài nộp nhóm. Branch của Hà được giữ nguyên như snapshot nguồn.
 
 ## 2. Rubric dùng để đánh giá
 
@@ -77,6 +77,6 @@ Raw evidence được lấy nguyên từ Git blob. Hash file trong báo cáo bas
 
 ## 7. Tích hợp Git
 
-Chỉ nhập tài liệu, ảnh và evidence. File .py cá nhân, tests .py, script vẽ .py, key và .env không đưa vào commit nhóm. Các .py sẵn có trên main là template/autograder gốc và phải giữ nguyên so với commit nền.
+Ở commit tổng hợp f0e5c0e, main chỉ nhận tài liệu, ảnh và evidence. Sau đó, theo yêu cầu trực tiếp của nhóm trưởng, branch code Linh được merge vào main: prototype Discharge Summary, tests, công cụ và dependencies. Xung đột báo cáo/sơ đồ giữ bản nhóm; công cụ vẽ được đồng bộ với sơ đồ nhóm. Autograder gốc giữ nguyên; key và .env không được commit.
 
-Bài nhóm chính gồm 01-problem-scan.md, 02-deep-dive-report.md, 03-ai-log.md và 04-workflow-diagram.png. README, file review và evidence hỗ trợ kiểm tra/tái lập. Các branch cá nhân không bị merge vào main.
+Bài nhóm chính gồm 01-problem-scan.md, 02-deep-dive-report.md, 03-ai-log.md và 04-workflow-diagram.png. README, file review, evidence và code trên main hỗ trợ kiểm tra/tái lập. Các branch cá nhân vẫn tồn tại; không sửa code hoặc lịch sử của bốn thành viên khác.

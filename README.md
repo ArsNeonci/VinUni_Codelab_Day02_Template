@@ -33,11 +33,25 @@
 
 Evidence: [raw live](evidence/discharge-live-run.json), [template](evidence/template-baseline.json), [demo nháp giả lập](evidence/discharge-summary-demo.md).
 
-## Code và chấm cá nhân
+## Code chạy trên main
 
-Main chỉ tổng hợp tài liệu, ảnh và evidence. Không merge code .py cá nhân. Các .py có sẵn trên main là starter/autograder gốc, không phải prototype Discharge Summary để chạy.
+Theo yêu cầu cuối cùng của Chu Quang Linh với vai trò nhóm trưởng, code Discharge Summary được chọn từ branch `chu-quang-linh` đã được tích hợp vào main, cùng tests, công cụ demo và dependencies. Báo cáo và sơ đồ giữ bản tổng hợp nhóm. Đây là thay đổi theo xác nhận trực tiếp của nhóm trưởng sau bản tổng hợp tài liệu ban đầu.
 
-Code và lệnh tái lập ở [branch Linh](https://github.com/ArsNeonci/VinUni_Codelab_Day02_Template/blob/9bcba76308d356ea2a1c4deda9ba168132c2082d/README.md), [prototype](https://github.com/ArsNeonci/VinUni_Codelab_Day02_Template/blob/9bcba76308d356ea2a1c4deda9ba168132c2082d/starter-code/prompt_prototype.py), [tests](https://github.com/ArsNeonci/VinUni_Codelab_Day02_Template/blob/9bcba76308d356ea2a1c4deda9ba168132c2082d/tests/test_prompt_prototype.py) và [template comparison](https://github.com/ArsNeonci/VinUni_Codelab_Day02_Template/blob/9bcba76308d356ea2a1c4deda9ba168132c2082d/tools/compare_template_baseline.py).
+Code hiện tại: [prototype](starter-code/prompt_prototype.py), [tests](tests/test_prompt_prototype.py), [template comparison](tools/compare_template_baseline.py), [xuất demo](tools/export_discharge_demo.py) và [vẽ sơ đồ nhóm](tools/render_workflow.py). Commit nguồn được giữ trong [manifest](evidence/review-manifest.json).
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+# Nếu chưa có .env: copy .env.example .env rồi điền GEMINI_API_KEY cục bộ.
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe tools/compare_template_baseline.py
+.\.venv\Scripts\python.exe tools/export_discharge_demo.py
+.\.venv\Scripts\python.exe tools/render_workflow.py
+# Chỉ chạy dòng sau khi muốn gọi lại Gemini thật (8 ca tổng hợp, tiêu tốn quota):
+.\.venv\Scripts\python.exe starter-code/prompt_prototype.py --report results/gemini-discharge.json
+```
+
+Key được nạp từ `.env` tại gốc repo, không ghi vào log hoặc commit. `results/` là đầu ra có thể tái tạo; `evidence/` giữ snapshot đã dùng để tổng hợp báo cáo. Công cụ vẽ dùng font Segoe UI trên Windows. Chỉ dùng hồ sơ giả lập trong prototype này.
 
 Các branch cá nhân khác được liên kết trong file review; không coi việc có tên trong báo cáo là thay cho bài/commit cá nhân. Không gán điểm cá nhân thay giảng viên.
 
@@ -53,9 +67,9 @@ Các file [worksheet](01-worksheet.md), [worked example](02-deliverable-example.
 
 ## Quy trình nộp theo hướng dẫn
 
-1. Mỗi thành viên giữ bài và code trên branch riêng; nhóm review, chọn lọc tài liệu vào main.
+1. Các branch cá nhân được giữ nguyên để truy vết; nhóm trưởng đã yêu cầu đưa code được chọn lên main cùng tài liệu nhóm.
 2. Bản main hiện là bộ tài liệu nhóm để trưởng nhóm dùng nộp. Các giả định, nguồn và giới hạn đã ghi trong báo cáo.
 3. Chỉ trưởng nhóm điền form theo tài liệu lớp, với họ tên và link repository: [Form được PDF hướng dẫn](https://forms.gle/nzwFKAooNbb7iot36). Phiên tổng hợp này không gửi form và không xác nhận nhóm đã nộp.
 4. Mỗi người tự xác nhận email đăng ký BTC đã liên kết tài khoản GitHub; repo không cho biết trạng thái đăng ký đó.
 
-Tên/email nhóm dùng danh sách Linh đã cung cấp. Tệp review ghi nhận khác biệt thông tin trên một branch để truy vết, không tự thay dữ liệu đăng ký.
+Nhóm trưởng đã xác nhận email của Hà là `thuha261102@gmail.com` và chấp nhận đề tài Discharge Summary/model Gemini 3.8. Tên/email nhóm dùng danh sách Linh đã cung cấp. Xác nhận này không phải phê duyệt sử dụng prototype trong bệnh viện.
