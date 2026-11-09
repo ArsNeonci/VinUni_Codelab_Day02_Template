@@ -1,3 +1,44 @@
+# Nhóm A95 - Bài làm Lab 02: AI Product Scoping
+
+| Thành viên | Email |
+|---|---|
+| Chu Quang Linh | Quanglinh1286@gmail.com |
+| Nguyễn Minh Quân | minhquandhtb@gmail.com |
+| Trương Thu Hà | thuha261102@gmail.com |
+| Phan Trần Mạnh Cường | manhcuong2005.28@gmail.com |
+| Nguyễn Lương Phúc | luongphuc.lpu@gmail.com |
+
+## Chạy bài làm A95
+
+Bài toán: co-pilot tạo nháp cho điều phối viên Xanh SM khi tài xế báo sự cố pin.
+Đã bổ sung [Problem Scan](01-problem-scan.md), [Deep-Dive](02-deep-dive-report.md),
+[AI Log](03-ai-log.md) và [sơ đồ workflow](04-workflow-diagram.png).
+Các số liệu vận hành trong báo cáo là giả định cho lab, chưa được kiểm chứng thực địa.
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+# Tạo .env từ .env.example nếu chưa có; điền GEMINI_API_KEY vào .env.
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe starter-code/prompt_prototype.py --report results/gemini-boundary.json
+.\.venv\Scripts\python.exe autograder/autograder.py
+```
+
+Prototype đọc `.env` theo vị trí repository, nên vẫn tìm được key khi chạy từ thư mục khác.
+Key trong `.env` được ưu tiên; nếu thiếu mới dùng `GEMINI_API_KEY`/`GOOGLE_API_KEY` trong môi trường.
+`.env` đã được Git bỏ qua. Không ghi key vào code, báo cáo hoặc commit.
+Script thực hiện 6 yêu cầu Gemini độc lập, timeout 20 giây mỗi request, không tự retry;
+lỗi API hoặc vi phạm kiểm tra trả exit code 1. Không có chế độ giả lập kết quả live.
+Pytest chạy offline với SDK mock; autograder và script chính có gọi API thật, có thể tiêu tốn quota.
+
+Output là `[DRAFT_ONLY] ` rồi một JSON object; mọi action là đề xuất cần duyệt.
+Validator kiểm tra cấu trúc/action, người dùng vẫn phải kiểm tra ngữ nghĩa nội dung.
+Muốn tái tạo PNG trên Windows: `.\.venv\Scripts\python.exe tools/render_workflow.py`.
+
+Code cá nhân chỉ commit trên branch cá nhân. Báo cáo nhóm được trưởng nhóm chọn lọc đưa vào main theo quy định ở dưới.
+
+---
+
 # 📖 Hướng Dẫn Học Viên (Student Guide) — Lab 02: AI Product Scoping
 
 Tài liệu này hướng dẫn chi tiết cách thiết lập môi trường lập trình Python, cấu hình API Key, quy trình phân nhánh Git làm việc nhóm và chuẩn bị sản phẩm nộp bài cho **Lab 02: AI Product Scoping (Vin Smart Future)**.
@@ -41,7 +82,7 @@ Bạn phải kích hoạt môi trường ảo mỗi khi mở terminal mới trư
 ### 📥 Bước 3: Cài đặt thư viện cần thiết
 Chạy lệnh sau để cài đặt SDK của Gemini và các thư viện hỗ trợ:
 ```bash
-pip install google-genai google-generativeai pytest
+pip install -r requirements.txt
 ```
 
 ---
